@@ -1,0 +1,20 @@
+.error-container {
+    box-sizing: border-box;
+    background-color: white;
+    margin-top: 16%;
+    padding: 1rem;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+    word-wrap: break-word;
+}
+
+@media screen and (min-width: 500px){
+    .error-container {
+
+        width: 300px;
+        margin-top: 18%;
+        margin-right: auto;
+        margin-left: auto;
+        padding: 2rem;
+    }
+}

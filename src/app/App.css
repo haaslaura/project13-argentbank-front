@@ -1,0 +1,32 @@
+html {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
+/*** Consignes medias queries ***/
+
+/* // The site is mobile-first. Here are the instructions for the media queries:
+// Above 900px, display for tablets (in landscape mode).
+// Above 1024px, leave blank spaces on the sides.
+
+@media screen and (min-width: $min-width){
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px 100px;
+  } */
