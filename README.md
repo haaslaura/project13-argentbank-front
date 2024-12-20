@@ -1,6 +1,6 @@
 # Projet 13, formation Openclassrooms - Parcours Front-end
 ## Argent Bank
-Développez un tableau de bord d'analytics avec React
+Utilisez une API pour un compte utilisateur bancaire avec React
 
 ## Utilisation
 ### Backend
