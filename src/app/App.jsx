@@ -10,6 +10,8 @@ import Error from "../pages/error/Error"
 import SignIn from "../pages/signIn/SignIn"
 import Account from "../pages/account/Account"
 
+import ProtectedRoute from "../components/protectedRoute/ProtectedRoute"
+
 function App() {
   
   return (
@@ -21,8 +23,13 @@ function App() {
           <Route path="/" element={<Main />} >
             {/* Children route */}
             <Route index element={<Home />} />
-            <Route path="sign-in" element={<SignIn />} />
-            <Route path="profile" element={<Account />} />
+            <Route path="/login" element={<SignIn />} />
+            <Route path="/profile" element={
+              <ProtectedRoute>
+                <Account />
+              </ProtectedRoute>
+              }
+            />
             <Route path="*" element={<Error />} />
           </Route>
         </Routes>

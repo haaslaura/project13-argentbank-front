@@ -3,15 +3,8 @@
 Utilisez une API pour un compte utilisateur bancaire avec React
 
 ## Utilisation
-### Backend
-Cloner le repository via :
-
-git clone [https://github.com/OpenClassrooms-Student-Center/Project-10-Bank-API.git](https://github.com/OpenClassrooms-Student-Center/Project-10-Bank-API.git)
-
-Les instructions sont présentent dans le Readme du projet.
-
 ### Frontend
-Ce repository en cours de consultation contient la version front-end du projet.
+Ce repository contient la version front-end du projet.
 
 Une fois le projet récupéré via git clone https://github.com/haaslaura/sportsee-front.git, lancer le frontend comme suit :
 
@@ -22,6 +15,13 @@ Pour lancer react : `npm run dev`
 Ouvrez [http://localhost:5173](http://localhost:5173) pour l'afficher dans votre navigateur.
 
 La page se rechargera lorsque vous effectuerez des modifications. Vous pourrez également voir les erreurs dans la console.
+
+### Backend
+Cloner le repository via :
+
+git clone [https://github.com/OpenClassrooms-Student-Center/Project-10-Bank-API.git](https://github.com/OpenClassrooms-Student-Center/Project-10-Bank-API.git)
+
+Les instructions sont présentent dans le Readme du projet.
 
 ## Scénario
 à venir
