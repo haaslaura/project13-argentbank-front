@@ -4,21 +4,52 @@ import { useNavigate } from 'react-router'
 import { useDispatch } from 'react-redux'
 import { login } from './authSlice'
 
+
+/**
+ * SignInForm Component
+ * @description Handles user authentication by collecting and validating user credentials, 
+ * communicating with a backend API, and managing authentication state.
+ * 
+ * @component
+ */
 const SignInForm = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   
+  // State management for form inputs and authentication status
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [checked, setChecked] = useState(false)
   const [error, setError] = useState(null) 
 
+  /**
+   * Toggles the "Remember me" checkbox state
+   */
   const handleChange = () => {
     setChecked(!checked)
   }
+
+  /**
+   * Sanitizes input to remove potentially malicious HTML characters
+   * @param {string} input - The user input to sanitize
+   * @returns {string} - The sanitized input string
+   */
+  const validateInput = (input) => {
+    const sanitizedInput = input.replace(/[<>]/g, "")
+    return sanitizedInput
+  }
   
+  /**
+   * Handles the login process, including sanitizing input, sending the login request, 
+   * and managing authentication state.
+   * @async
+   * @param {Event} e - The form submission event
+   */
   const handleLogin = async (e) => {
-    e.preventDefault()   
+    e.preventDefault()
+
+    const sanitizedUsername = validateInput(username)
+    const sanitizedPassword = validateInput(password)
     
     try {
       const response = await fetch('http://localhost:3001/api/v1/user/login', {
@@ -26,7 +57,10 @@ const SignInForm = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email: username, password }),
+        body: JSON.stringify({
+          email: sanitizedUsername,
+          password: sanitizedPassword
+        }),
       })      
       
       if (response.ok) {
