@@ -10,8 +10,12 @@ const SignInForm = () => {
   
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  // const [rememberMe, setRememberMe] = useState(false)
-  const [error, setError] = useState(null)
+  const [checked, setChecked] = useState(false)
+  const [error, setError] = useState(null) 
+
+  const handleChange = () => {
+    setChecked(!checked)
+  }
   
   const handleLogin = async (e) => {
     e.preventDefault()   
@@ -27,16 +31,19 @@ const SignInForm = () => {
       
       if (response.ok) {
         const data = await response.json()
-        
         const token = data.body.token
-        console.log('Token received:', data.body.token) 
+        // console.log('Token received:', data.body.token)
 
-        dispatch(login({ token }))
-        navigate('/profile') // If everything is OK, redirects the user to the profile page
+        if (checked) {
+          localStorage.setItem('token', token);
+        }        
+
+        dispatch(login({ token, persist: checked }))
+        navigate('/profile')
         
       } else {
         const errorData = await response.json()
-        setError(errorData.message); // Displays an error message if authentication fails
+        setError(errorData.message)
       
       }
     } catch (err) {
@@ -50,27 +57,30 @@ const SignInForm = () => {
       <div className="input-wrapper">
         <label htmlFor="username">Username</label>
         <input
-        type="text"
-        id="username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        required
+          type="text"
+          id="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
         />
       </div>
       <div className="input-wrapper">
         <label htmlFor="password">Password</label>
         <input
-        type="password"
-        id="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
+          type="password"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
         />
       </div>
       <div className="input-remember">
         <input
-        type="checkbox"
-        id="remember-me" />
+          type="checkbox"
+          id="remember-me"
+          checked={checked}
+          onChange={handleChange}
+        />
         <label htmlFor="remember-me">Remember me</label>
       </div>
       

@@ -1,9 +1,9 @@
-import AccountContentWrapper from '../../components/accountContentWrapper/AccountContentWrapper'
 import './account.css'
-import { useDispatch, useSelector } from 'react-redux'
+import AccountContentWrapper from '../../components/accountContentWrapper/AccountContentWrapper'
 import { disableDarkMode, enableDarkMode } from '../../layouts/main/themeSlice'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 
 // Penser au Header
 // -> Sign out + User name
@@ -37,54 +37,54 @@ const Account = () => {
           }
     }, [])
 
-
     const token = useSelector((state) => state.auth.token)
     const [profileData, setProfileData] = useState(null)
     const [error, setError] = useState(null)
-    const navigate = useNavigate
+    const navigate = useNavigate()
+    
+    useEffect(() => {
+        const fetchProfileData = async () => {
+          
+          if (!token) {
+            setError('Unauthenticated user.')
+            navigate('/login') // Redirects if no token
+            return
+          }
+    
+          try {
+            const response = await fetch('http://localhost:3001/api/v1/user/profile', {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+              },
+            })
 
-    // A VERIFIER
-    // useEffect(() => {
-    //     const fetchProfileData = async () => {
-    //       if (!token) {
-    //         setError('Utilisateur non authentifié.');
-    //         navigate('/signin'); // Redirige si pas de token
-    //         return;
-    //       }
+            if (response.ok) {
+              const data = await response.json()
+              // console.log(data.message)
+              setProfileData(data.body)
+
+            } else {
+              setError('Invalid or expired token.')
+              navigate('/signin')
+            }
+
+          } catch (err) {
+            setError('Network error.')
+            console.error(err)
+          }
+        }
     
-    //       try {
-    //         const response = await fetch('http://localhost:3001/api/v1/user/profile', {
-    //           method: 'GET',
-    //           headers: {
-    //             'Authorization': `Bearer ${token}`,
-    //           },
-    //         });
+      fetchProfileData()
+    }, [token, navigate])
     
-    //         if (response.ok) {
-    //           const data = await response.json();
-    //           setProfileData(data);
-    //         } else {
-    //           setError('Token invalide ou expiré.');
-    //           navigate('/signin');
-    //         }
-    //       } catch (err) {
-    //         setError('Erreur réseau.');
-    //         console.error(err);
-    //       }
-    //     };
-    
-    //     fetchProfileData();
-    //   }, [token, navigate]);
-    
-    //   if (error) return <p>{error}</p>;
-    //   if (!profileData) return <p>Chargement...</p>;
-    // A VERIFIER
+    if (error) return <p>{error}</p>
+    if (!profileData) return <p>Loading...</p>
     
     return (
         <>
             <div className="header">
-                <h1>Welcome back<br />Tony Jarvis!</h1>
-                {/* <h1>Welcome back<br /> {profileData.firstName}</h1> */}
+                <h1>Welcome back<br />{profileData?.firstName} {profileData?.lastName}!</h1>
                 <button className="edit-button">Edit Name</button>
             </div>
             
