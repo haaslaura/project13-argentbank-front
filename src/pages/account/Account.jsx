@@ -6,12 +6,16 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Profile from '../../features/editProfile/Profile'
+import { setUser } from '../../features/user/userSlice'
+import { fetchUserProfile } from '../../services/userService'
 
 
 const Account = () => {
     
-    // activates bg-dark on assembly, deactivates bg-dark on disassembly
     const dispatch = useDispatch()
+    const { firstname, lastname } = useSelector((state) => state.user)
+
+    // activates bg-dark on assembly, deactivates bg-dark on disassembly
     useEffect(() => {
         dispatch(enableDarkMode())
         return () => {
@@ -34,23 +38,14 @@ const Account = () => {
           }
     
           try {
-            const response = await fetch('http://localhost:3001/api/v1/user/profile', {
-              method: 'POST',
-              headers: {
-                'Authorization': `Bearer ${token}`,
-              },
-            })
-
-            if (response.ok) {
-              const data = await response.json()
-              // console.log(data.message)
-              setProfileData(data.body)
-
-            } else {
-              setError('Invalid or expired token.')
-              navigate('/signin')
-            }
-
+            const data = await fetchUserProfile(token)
+            setProfileData(data.body)            
+            dispatch(setUser({
+                firstname: data.body.firstName,
+                lastname: data.body.lastName,
+                email: data.body.email,
+            }))
+          
           } catch (err) {
             setError('Network error.')
             console.error(err)
@@ -67,11 +62,9 @@ const Account = () => {
         <>
             <div className="header">
                 <Profile
-                  firstName={profileData?.firstName}
-                  lastName={profileData?.lastName}
+                  firstName={firstname}
+                  lastName={lastname}
                 />
-                {/* <h1>Welcome back<br />{profileData?.firstName} {profileData?.lastName}!</h1>
-                <button className="edit-button">Edit Name</button> */}
             </div>
             
             <h2 className="sr-only">Accounts</h2>

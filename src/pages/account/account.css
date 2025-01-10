@@ -6,6 +6,10 @@
     margin-right: auto;
 }
 
+.header h1 {
+    margin-bottom: 10px;
+}
+
 .transaction-button {
     display: block;
     width: 100%;

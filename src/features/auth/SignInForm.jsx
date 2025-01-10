@@ -2,7 +2,8 @@ import './signInForm.css'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useDispatch } from 'react-redux'
-import { login } from './authSlice'
+import { fetchUserLogin } from '../../services/userService'
+import { login } from '../auth/authSlice'
 
 
 /**
@@ -21,6 +22,7 @@ const SignInForm = () => {
   const [password, setPassword] = useState('')
   const [checked, setChecked] = useState(false)
   const [error, setError] = useState(null) 
+  
 
   /**
    * Toggles the "Remember me" checkbox state
@@ -50,39 +52,21 @@ const SignInForm = () => {
 
     const sanitizedUsername = validateInput(username)
     const sanitizedPassword = validateInput(password)
-    
+
     try {
-      const response = await fetch('http://localhost:3001/api/v1/user/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: sanitizedUsername,
-          password: sanitizedPassword
-        }),
-      })      
+      const token = await fetchUserLogin(sanitizedUsername, sanitizedPassword)
+      console.log(token); // le token apparait dans la console
       
-      if (response.ok) {
-        const data = await response.json()
-        const token = data.body.token
-        // console.log('Token received:', data.body.token)
-
-        if (checked) {
-          localStorage.setItem('token', token);
-        }        
-
-        dispatch(login({ token, persist: checked }))
-        navigate('/profile')
-        
-      } else {
-        const errorData = await response.json()
-        setError(errorData.message)
-      
+      // Stocke le token si l'utilisateur souhaite se souvenir de la session
+      if (checked) {
+        localStorage.setItem('token', token)
       }
+
+      dispatch(login({ token, persist: checked }))
+      navigate('/profile')
+
     } catch (err) {
-      console.error('Network error:', err)
-      setError('An error has occurred. Please try again.')
+      setError(err.message)
     }
   }
   
