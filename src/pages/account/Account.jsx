@@ -1,30 +1,11 @@
 import './account.css'
+import bankTransactions from '../../mockdata/bankTransactions.json'
 import AccountContentWrapper from '../../components/accountContentWrapper/AccountContentWrapper'
 import { disableDarkMode, enableDarkMode } from '../../layouts/main/themeSlice'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-// Penser au Header
-// -> Sign out + User name
-
-const arrayTestAccountContent = [
-    {
-        title: "Argent Bank Checking (x8349)",
-        amount: "$2,082.79",
-        description: "Available Balance",
-    }, 
-    {
-        title: "Argent Bank Savings (x6712)",
-        amount: "$10,928.42",
-        description: "Available Balance",
-    },
-    {
-        title: "Argent Bank Credit Card (x8349)",
-        amount: "$184.30",
-        description: "Current Balance",
-    }
-]
 
 const Account = () => {
     
@@ -62,6 +43,7 @@ const Account = () => {
             if (response.ok) {
               const data = await response.json()
               // console.log(data.message)
+              console.log(data.body)
               setProfileData(data.body)
 
             } else {
@@ -90,7 +72,7 @@ const Account = () => {
             
             <h2 className="sr-only">Accounts</h2>
             {
-                arrayTestAccountContent.map((item, index) => (
+                bankTransactions.map((item, index) => (
                     <AccountContentWrapper
                         key={index}
                         title={item.title}

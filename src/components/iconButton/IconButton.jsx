@@ -1,7 +1,7 @@
 import './iconButton.css'
 import { Link } from "react-router-dom"
 import { useDispatch } from "react-redux"
-import { logout } from "../signIn/authSlice"
+import { logout } from "../../features/auth/authSlice"
 
 
 /**

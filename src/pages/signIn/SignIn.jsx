@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { disableDarkMode, enableDarkMode } from '../../layouts/main/themeSlice'
-import SignInForm from '../../components/signIn/SignInForm'
+import SignInForm from '../../features/auth/SignInForm'
 
 
 const SignIn = () => {

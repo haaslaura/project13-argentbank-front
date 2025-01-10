@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import themeReducer from '../layouts/main/themeSlice'
-import authReducer from '../components/signIn/authSlice'
+import authReducer from '../features/auth/authSlice'
 
 export const store = configureStore({
   reducer: {
