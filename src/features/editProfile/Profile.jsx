@@ -7,7 +7,10 @@ import { enableEditingMode } from './editingSlice'
 const Profile = ({firstName, lastName}) => {
     
     const dispatch = useDispatch()
-    const editing = useSelector((state) => state.edit.editingMode)   
+    const editing = useSelector((state) => state.edit.editingMode) 
+
+    // const user = useSelector((state) => state.user.setUser)
+    // console.log(user);
 
     const openProfileEdit = () => {
         dispatch(enableEditingMode())
@@ -15,9 +18,10 @@ const Profile = ({firstName, lastName}) => {
 
     return (
         <>
+            <h1>Welcome back</h1>
             {!editing ?
                 <>
-                    <h1>Welcome back<br />{firstName} {lastName}!</h1>
+                    <p id='user-name'>{firstName} {lastName}!</p>
                     <button className="edit-button" onClick={openProfileEdit}>Edit Name</button>
                 </>
             :
