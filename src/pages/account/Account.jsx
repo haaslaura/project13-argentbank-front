@@ -5,6 +5,7 @@ import { disableDarkMode, enableDarkMode } from '../../layouts/main/themeSlice'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import Profile from '../../features/editProfile/Profile'
 
 
 const Account = () => {
@@ -43,7 +44,6 @@ const Account = () => {
             if (response.ok) {
               const data = await response.json()
               // console.log(data.message)
-              console.log(data.body)
               setProfileData(data.body)
 
             } else {
@@ -66,8 +66,12 @@ const Account = () => {
     return (
         <>
             <div className="header">
-                <h1>Welcome back<br />{profileData?.firstName} {profileData?.lastName}!</h1>
-                <button className="edit-button">Edit Name</button>
+                <Profile
+                  firstName={profileData?.firstName}
+                  lastName={profileData?.lastName}
+                />
+                {/* <h1>Welcome back<br />{profileData?.firstName} {profileData?.lastName}!</h1>
+                <button className="edit-button">Edit Name</button> */}
             </div>
             
             <h2 className="sr-only">Accounts</h2>
