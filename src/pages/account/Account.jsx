@@ -1,19 +1,35 @@
 import './account.css'
-import bankTransactions from '../../mockdata/bankTransactions.json'
-import AccountContentWrapper from '../../components/accountContentWrapper/AccountContentWrapper'
-import { disableDarkMode, enableDarkMode } from '../../layouts/main/themeSlice'
+
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+
+import bankTransactions from '../../mockdata/bankTransactions.json'
+import { fetchUserProfile } from '../../services/userService'
+
 import Profile from '../../features/editProfile/Profile'
 import { setUser } from '../../features/user/userSlice'
-import { fetchUserProfile } from '../../services/userService'
+
+import { disableDarkMode, enableDarkMode } from '../../layouts/main/themeSlice'
+import AccountContentWrapper from '../../components/accountContentWrapper/AccountContentWrapper'
 
 
 const Account = () => {
     
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const token = useSelector((state) => state.auth.token)
     const { firstname, lastname } = useSelector((state) => state.user)
+    
+    const [profileData, setProfileData] = useState(null)
+    const [error, setError] = useState(null)
+    
+    // Checks immediately for missing token
+    if (!token) {
+      navigate('/login')
+      return null
+    }
 
     // activates bg-dark on assembly, deactivates bg-dark on disassembly
     useEffect(() => {
@@ -21,22 +37,11 @@ const Account = () => {
         return () => {
             dispatch(disableDarkMode())
           }
-    }, [])
-
-    const token = useSelector((state) => state.auth.token)
-    const [profileData, setProfileData] = useState(null)
-    const [error, setError] = useState(null)
-    const navigate = useNavigate()
+    }, []) 
     
     useEffect(() => {
         const fetchProfileData = async () => {
-          
-          if (!token) {
-            setError('Unauthenticated user.')
-            navigate('/login') // Redirects if no token
-            return
-          }
-    
+              
           try {
             const data = await fetchUserProfile(token)
             setProfileData(data.body)            
@@ -49,11 +54,12 @@ const Account = () => {
           } catch (err) {
             setError('Network error.')
             console.error(err)
+            navigate('/login')
           }
         }
     
       fetchProfileData()
-    }, [token, navigate])
+    }, [token])
     
     if (error) return <p>{error}</p>
     if (!profileData) return <p>Loading...</p>

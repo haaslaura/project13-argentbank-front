@@ -1,47 +1,109 @@
-import { useDispatch } from 'react-redux'
 import './editProfile.css'
+import { useState } from "react"
+import { useDispatch, useSelector } from 'react-redux'
 import { disableEditingMode } from './editingSlice'
-import { useState, useEffect } from "react"
+import { updateUserProfile } from '../../services/userService'
+import { setUser } from '../user/userSlice'
+import { useNavigate } from 'react-router-dom'
 
 
+/**
+ * Component for editing a user's profile.
+ * Allows the user to update their first and last name, validate inputs, and save changes.
+ *
+ * @param {Object} props - Component props
+ * @param {string} props.firstName - Initial first name of the user
+ * @param {string} props.lastName - Initial last name of the user
+ * @returns {JSX.Element} - The JSX representation of the EditProfile component
+ */
 const EditProfile = ({firstName, lastName}) => {
-    
-    // Function to close the editing mode
     const dispatch = useDispatch()
+    const navigate = useNavigate()   
+
+    const token = useSelector((state) => state.auth.token)
+
+    const [actualLastName, setLastName] = useState(lastName)
+    const [actualFirstName, setFirstName] = useState(firstName)
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [error, setError] = useState(null)
+    
+    /**
+     * Closes the profile editing mode.
+     */
     const closeProfileEdit = ()  => {
         dispatch(disableEditingMode())
     }
-    
-    // EXEMPLE A MODIFIER
-    // Declare a state variable to store the data
-    const [data, setData] = useState(null);
-    
-    // Define the data to update
-    const newData = {
-        title: "How to Use Fetch to Make PUT Requests in React",
-        content: "In this blog post, we will learn how to use the Fetch API to make PUT requests in React..."
-    };
-        
-    // Define the request options
-    const requestOptions = {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newData)
-    };
-        
-    // Use the useEffect hook to make the request
-    useEffect(() => {
-        // Make the request
-        fetch("https://example.com/api/posts/1", requestOptions)
-        .then(response => response.json()) // Parse the response as JSON
-        .then(data => setData(data)) // Update the state with the data
-        .catch(error => console.error(error)); // Handle errors
-    }, []); // Pass an empty array as the second argument to run the effect only once
-    // EXEMPLE A MODIFIER
-        
+
+    /**
+     * Validates and sanitizes user input to prevent empty fields, excessive length, 
+     * and disallowed characters.
+     *
+     * @param {string} input - The user input to sanitize and validate.
+     * @throws Will throw an error if the input is empty or exceeds the allowed length.
+     * @returns {string} - The sanitized input string.
+     */
+    const validateInput = (input) => {
+        const sanitizedInput = input.trim().replace(/[=<>\[\];]/g, "")
+
+        if (sanitizedInput.length === 0) {
+            throw new Error("Input cannot be empty.")
+        }
+        if (sanitizedInput.length > 50) {
+            throw new Error("Input is too long. Maximum 50 characters allowed.")
+        }
+        return sanitizedInput
+  }
+
+    /**
+     * Handles the submission of the profile form to update the user's information.
+     * Validates inputs, sends a request to update the profile, and updates the Redux state.
+     *
+     * @param {React.FormEvent<HTMLFormElement>} e - The form submission event.
+     */
+    const saveNewProfile = async (e) => {
+        e.preventDefault()
+
+        // Prevent multiple simultaneous submissions
+        if (isSubmitting) return
+        setIsSubmitting(true)
+
+        if (!token) {
+            setError('Unauthenticated user.')
+            navigate('/login')
+            return
+        }
+
+        try {
+            const sanitizedFirstName = validateInput(actualFirstName)
+            const sanitizedLastName = validateInput(actualLastName)
+
+            // Call API to update user profile
+            const data = await updateUserProfile(
+                token,
+                sanitizedFirstName,
+                sanitizedLastName
+            )
+            // Update Redux store with the new user details
+            dispatch(
+                setUser({
+                    firstname: sanitizedFirstName,
+                    lastname: sanitizedLastName,
+                })
+            )
+            closeProfileEdit()
+
+        } catch (err) {
+            setError(err.message)
+        } finally {
+            setIsSubmitting(false)
+        }
+    }
+            
     return (
         <>
-            <form id='editing-form' action="">
+            {error && <p className="error-message">{error}</p>}
+
+            <form id='editing-form' onSubmit={saveNewProfile}>
                 
                 <div className='edit-profil-form__section'>
                     <div id='one'>
@@ -49,7 +111,11 @@ const EditProfile = ({firstName, lastName}) => {
                         <input
                             type="text"
                             id="firstName"
-                            placeholder={firstName}
+                            value={actualFirstName}
+                            onChange={(e) => {
+                                setFirstName(e.target.value)
+                                setError(null) // Clears the error if modified
+                            }}
                         />
                     </div>
                     <div id='two'>
@@ -57,7 +123,11 @@ const EditProfile = ({firstName, lastName}) => {
                         <input
                             type="text"
                             id="lastName"
-                            placeholder={lastName}
+                            value={actualLastName}
+                            onChange={(e) => {
+                                setLastName(e.target.value)
+                                setError(null) // Clears the error if modified
+                            }}
                         />
                     </div>
                 </div>
@@ -67,8 +137,10 @@ const EditProfile = ({firstName, lastName}) => {
                         <button
                             className='edit-button form-button'
                             type="submit"
+                            disabled={isSubmitting}
+                            aria-busy={isSubmitting}
                         >
-                            Save
+                            {isSubmitting ? "Saving..." : "Save"}
                         </button>
                     </div>
                     <div id='four'>
@@ -85,7 +157,6 @@ const EditProfile = ({firstName, lastName}) => {
             </form>
         </>
     )
-        
 }
     
 export default EditProfile

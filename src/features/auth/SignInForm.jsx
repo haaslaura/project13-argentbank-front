@@ -55,9 +55,8 @@ const SignInForm = () => {
 
     try {
       const token = await fetchUserLogin(sanitizedUsername, sanitizedPassword)
-      console.log(token); // le token apparait dans la console
       
-      // Stocke le token si l'utilisateur souhaite se souvenir de la session
+      // Stores the token if the user wishes to remember their session
       if (checked) {
         localStorage.setItem('token', token)
       }

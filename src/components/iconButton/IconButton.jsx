@@ -2,6 +2,7 @@ import './iconButton.css'
 import { Link } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { logout } from "../../features/auth/authSlice"
+import { clearUser } from '../../features/user/userSlice'
 
 
 /**
@@ -23,6 +24,7 @@ const IconButton = ({link, icon, buttonText}) => {
     const handleLogout = () => {
         if (buttonText === "Sign Out") {        
             localStorage.removeItem('token')
+            dispatch(clearUser())
             dispatch(logout())
         }
     }
