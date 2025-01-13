@@ -1,3 +1,11 @@
+/**
+ * Logs in the user by sending their email and password to the server.
+ *
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
+ * @returns {Promise<string>} - A promise that resolves to the authentication token if the login is successful.
+ * @throws {Error} - Throws an error if the login fails
+ */
 export async function fetchUserLogin(email, password) {
     try {
         const response = await fetch('http://localhost:3001/api/v1/user/login', {
@@ -24,6 +32,13 @@ export async function fetchUserLogin(email, password) {
 }
 
 
+/**
+ * Fetches the user's profile information from the server
+ *
+ * @param {string} token - The authentication token to authorize the request.
+ * @returns {Promise<Object>} - A promise that resolves to the user's profile data.
+ * @throws {Error} - Throws an error if the token is invalid or expired
+ */
 export async function fetchUserProfile(token) {
     const response = await fetch('http://localhost:3001/api/v1/user/profile', {
         method: 'POST',
@@ -36,6 +51,15 @@ export async function fetchUserProfile(token) {
 }
 
 
+/**
+ * Updates the user's profile with a new first name and last name
+ *
+ * @param {string} token - The authentication token to authorize the request.
+ * @param {string} newFirstName - The new first name to update.
+ * @param {string} newLastName - The new last name to update.
+ * @returns {Promise<Object>} - A promise that resolves to the updated profile data.
+ * @throws {Error} - Throws an error if the update fails
+ */
 export async function updateUserProfile(token, newFirstName, newLastName) {
     try {
         const response = await fetch('http://localhost:3001/api/v1/user/profile', {

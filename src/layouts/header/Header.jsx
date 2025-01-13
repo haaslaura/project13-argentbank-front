@@ -4,6 +4,7 @@ import { Link } from 'react-router'
 import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import IconButton from '../../components/iconButton/IconButton'
+import { fetchUserProfile } from '../../services/userService'
 
 
 /**
@@ -20,39 +21,15 @@ import IconButton from '../../components/iconButton/IconButton'
 const Header = () => {
 
     const isAuthentificated = useSelector((state) => state.auth.isAuthentificated)
-    const token = useSelector((state) => state.auth.token)
+    const registredFirstName = useSelector((state) => state.user.firstname)
+
     const [firstName, setFirstName] = useState(null)
-    const [error, setError] = useState(null)
 
     useEffect(() => {
-        const fetchFirstNameData = async () => {
-          
-            if (token) {
-                try {
-                    const response = await fetch('http://localhost:3001/api/v1/user/profile', {
-                        method: 'POST',
-                        headers: {
-                        'Authorization': `Bearer ${token}`,
-                        },
-                    })
-    
-                    if (response.ok) {
-                        const data = await response.json()
-                        setFirstName(data.body?.firstName)
-        
-                    } else {
-                        setError('Invalid or expired token.')
-                        console.error(error)
-                    }
-    
-                } catch (err) {
-                    setError('Network error.')
-                    console.error(err)
-                }
-            }
+        if(isAuthentificated) {
+            setFirstName(registredFirstName)
         }
-        fetchFirstNameData()
-    }, [token])
+    }, [registredFirstName])
 
     return (
         <>

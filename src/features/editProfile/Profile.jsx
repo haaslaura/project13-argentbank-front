@@ -9,9 +9,6 @@ const Profile = ({firstName, lastName}) => {
     const dispatch = useDispatch()
     const editing = useSelector((state) => state.edit.editingMode) 
 
-    // const user = useSelector((state) => state.user.setUser)
-    // console.log(user);
-
     const openProfileEdit = () => {
         dispatch(enableEditingMode())
     }
