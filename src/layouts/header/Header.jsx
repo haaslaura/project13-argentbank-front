@@ -1,10 +1,13 @@
 import './header.css'
+
 import logo from '../../assets/argentBankLogo.svg'
+import logoMobile from '../../assets/argentBankLogo_mobile.svg'
+
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
 import { useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
+
 import IconButton from '../../components/iconButton/IconButton'
-import { fetchUserProfile } from '../../services/userService'
 
 
 /**
@@ -24,6 +27,20 @@ const Header = () => {
     const registredFirstName = useSelector((state) => state.user.firstname)
 
     const [firstName, setFirstName] = useState(null)
+    const [isMobile, setIsMobile] = useState(false)
+    
+    const handleResize = () => {
+        if (window.innerWidth < 720) {
+            setIsMobile(true)
+        } else {
+            setIsMobile(false)
+        }
+    }
+
+    // create an event listener
+    useEffect(() => {
+        window.addEventListener("resize", handleResize)
+    }, [])
 
     useEffect(() => {
         if(isAuthentificated) {
@@ -37,7 +54,7 @@ const Header = () => {
                 <Link className="main-nav-logo" to="/">
                     <img
                         className="main-nav-logo-image"
-                        src={logo}
+                        src={isMobile ? logoMobile : logo}
                         alt="Argent Bank Logo"
                     />
                     <h1 className="sr-only">Argent Bank</h1>

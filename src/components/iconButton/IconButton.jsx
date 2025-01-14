@@ -34,7 +34,7 @@ const IconButton = ({link, icon, buttonText}) => {
             <Link
                 className="main-nav-item"
                 to={link}
-                onClick={() => handleLogout()}
+                onClick={handleLogout}
             >
                 <i className={icon}></i> {buttonText}
             </Link>

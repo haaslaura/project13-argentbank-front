@@ -43,7 +43,7 @@ const EditProfile = ({firstName, lastName}) => {
      * @returns {string} - The sanitized input string.
      */
     const validateInput = (input) => {
-        const sanitizedInput = input.trim().replace(/[=<>\[\];]/g, "")
+        const sanitizedInput = input.trim().replace(/[=<>\[\];%]/g, "")
 
         if (sanitizedInput.length === 0) {
             throw new Error("Input cannot be empty.")
