@@ -79,7 +79,7 @@ export async function updateUserProfile(token, newFirstName, newLastName) {
         }
 
         const data = await response.json()
-        console.log(data.body)
+        console.log(data.body) // Line to be commented on after the demonstration
         return data
 
     } catch (error) {
