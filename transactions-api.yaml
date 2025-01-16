@@ -1,0 +1,183 @@
+swagger: '2.0'
+info:
+  title: Transactions API - Argent Bank
+  description: Documentation of API endpoints for transaction management
+  version: '1.0.0'
+  termsOfService: 'http://swagger.io/terms/'
+host: localhost:3001
+basePath: /api/v1
+schemes:
+  - http
+paths:
+  /user/transactions:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions
+      summary: Retrieve transactions for the current month
+      description: Retrieve all transactions for the current month, grouped by account
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer JWT token
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successful. Returns a table of transactions grouped by account.
+          schema:
+            $ref: '#/definitions/Transactions'
+          examples:
+            application/json:
+            - accountId: "12345"
+              date: "2020-06-20T10:45:00Z"
+              description: "Golden Sun Bakery"
+              amount: 5.00
+              balance: 2082.79
+              isCredit: false
+            - accountId: "12345"
+              date: "2020-06-22T10:45:00Z"
+              description: "Computer Better"
+              amount: 150.00
+              balance: 2232.79
+              isCredit: true
+        '400':
+          description: Invalid Fields or missing token
+        '500':
+          description: Internal Server Error
+  /user/transactions/{transactionId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions
+      summary: Transaction details
+      description: This endpoint is used to retrieve the details of a specific transaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer JWT token
+          required: true
+          type: string
+        - in: path
+          name: transactionId
+          description: ID of the transaction to retrieve
+          type: string
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction details successfully retrieved.
+          schema:
+            $ref: '#/definitions/TransactionDetails'
+          examples:
+            application/json:
+            - transactionId: "67891"
+              transactionType: "Electronic"
+              category: "Food"
+              notes: "Paid in full"
+        '400':
+          description: Invalid Fields or missing token
+        '500':
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions
+      summary: Transaction details
+      description: API for updating certain details of the transaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer JWT token
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Update transaction details
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionDetails'
+        - in: path
+          name: transactionId
+          required: true
+          description: ID of the transaction to update
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: The transaction was successfully modified.
+          schema:
+            $ref: '#/definitions/TransactionDetails'
+          examples:
+            application/json:
+            - transactionId: "67891"
+              transactionType: "Electronic"
+              category: "Entertainment "
+              notes: "Updated notes"
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  Transactions:
+    type: array
+    items:
+      $ref: '#/definitions/Transaction'
+  Transaction:
+    type: object
+    properties:
+      accountId:
+        type: string
+        description: Account ID for the transaction
+      date:
+        type: string
+        format: date-time
+        description: Date of the transaction
+      description:
+        type: string
+        description: Description of the transaction
+      amount:
+        type: number
+        format: float
+        description: Amount of the transaction
+      balance:
+        type: number
+        format: float
+        description: Remaining balance after the transaction
+  TransactionDetails:
+    type: object
+    properties:
+      transactionId:
+        type: string
+        description: ID of the transaction
+      transactionType:
+        type: string
+        description: Type of the transaction
+      category:
+        type: string
+        description: Category of the transaction
+      notes:
+        type: string
+        description: Notes for the transaction
+  ApiResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      data:
+        type: object
+        description: Response body, structure depends on the endpoint
