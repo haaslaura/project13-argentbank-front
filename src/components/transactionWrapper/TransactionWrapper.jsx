@@ -1,7 +1,8 @@
-import './accountContentWrapper.css'
+import './TransactionWrapper.css'
 
 
-const AccountContentWrapper = ({ title, amount, description }) => {
+const TransactionWrapper = ({ title, amount, description }) => {
+
     return (
         <>
             <section className="account">
@@ -11,11 +12,16 @@ const AccountContentWrapper = ({ title, amount, description }) => {
                 <p className="account-amount-description">{description}</p>
                 </div>
                 <div className="account-content-wrapper cta">
-                <button className="transaction-button">View transactions</button>
+                <button
+                    className="transaction-button"
+                    type="button"
+                >
+                    View transactions
+                </button>
                 </div>
             </section>
         </>
     )
 }
 
-export default AccountContentWrapper
+export default TransactionWrapper

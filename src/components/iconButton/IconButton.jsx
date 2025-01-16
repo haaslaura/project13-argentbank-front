@@ -22,7 +22,7 @@ const IconButton = ({link, icon, buttonText}) => {
     const dispatch = useDispatch()
 
     const handleLogout = () => {
-        if (buttonText === "Sign Out") {        
+        if (buttonText === "Sign Out") {                   
             localStorage.removeItem('token')
             dispatch(clearUser())
             dispatch(logout())

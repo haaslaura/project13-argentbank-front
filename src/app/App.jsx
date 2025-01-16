@@ -12,6 +12,7 @@ import Account from "../pages/account/Account"
 
 import ProtectedRoute from "../components/protectedRoute/ProtectedRoute"
 
+
 function App() {
   
   return (
@@ -19,8 +20,10 @@ function App() {
       <BrowserRouter>
         <Header />
         <Routes>
+          
           {/* Parent route */}
           <Route path="/" element={<Main />} >
+            
             {/* Children route */}
             <Route index element={<Home />} />
             <Route path="/login" element={<SignIn />} />
@@ -30,6 +33,7 @@ function App() {
               </ProtectedRoute>
               }
             />
+            
             <Route path="*" element={<Error />} />
           </Route>
         </Routes>

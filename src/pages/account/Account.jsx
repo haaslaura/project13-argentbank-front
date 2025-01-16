@@ -11,7 +11,7 @@ import Profile from '../../features/editProfile/Profile'
 import { setUser } from '../../features/user/userSlice'
 
 import { disableDarkMode, enableDarkMode } from '../../layouts/main/themeSlice'
-import AccountContentWrapper from '../../components/accountContentWrapper/AccountContentWrapper'
+import TransactionWrapper from '../../components/transactionWrapper/TransactionWrapper'
 
 
 const Account = () => {
@@ -76,7 +76,7 @@ const Account = () => {
             <h2 className="sr-only">Accounts</h2>
             {
                 bankTransactions.map((item, index) => (
-                    <AccountContentWrapper
+                    <TransactionWrapper
                         key={index}
                         title={item.title}
                         amount={item.amount}
