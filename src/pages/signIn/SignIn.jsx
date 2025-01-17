@@ -20,9 +20,10 @@ const SignIn = () => {
     // If the user is already logged in, the Sign in button takes them to the profile page
     // const isAuthentificated = useSelector((state) => state.auth.isAuthentificated)  
     // const persist = useSelector((state) => state.auth.persist)
-    // const token = localStorage.getItem('token')
+    // const localToken = localStorage.getItem('token')
     
     // if (isAuthentificated && (persist || token)) {
+    // if (localToken) {
     //     return <Navigate to="/profile" replace />
     // }
 

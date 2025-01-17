@@ -25,6 +25,7 @@ const Account = () => {
     const [profileData, setProfileData] = useState(null)
     const [error, setError] = useState(null)
     
+    
     // Checks immediately for missing token
     if (!token) {
       navigate('/login')

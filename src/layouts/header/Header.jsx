@@ -5,9 +5,11 @@ import logoMobile from '../../assets/argentBankLogo_mobile.svg'
 
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import IconButton from '../../components/iconButton/IconButton'
+import { fetchUserProfile } from '../../services/userService'
+import { setUser } from '../../features/user/userSlice'
 
 
 /**
@@ -22,33 +24,64 @@ import IconButton from '../../components/iconButton/IconButton'
  * @returns {JSX.Element} The Header component
  */
 const Header = () => {
+    const dispatch = useDispatch()
 
     const isAuthentificated = useSelector((state) => state.auth.isAuthentificated)
-    const registredFirstName = useSelector((state) => state.user.firstname)
+    const token = useSelector((state) => state.auth.token)
+    console.log(isAuthentificated)
+    
+    // const registredFirstName = useSelector((state) => state.user.firstname)
 
     const [firstName, setFirstName] = useState(null)
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
+    const [error, setError] = useState(null)
     
     
     useEffect(() => {
         const handleResize = () => {
-          setIsMobile(window.innerWidth <= 768);
+          setIsMobile(window.innerWidth <= 768)
         }
       
         window.addEventListener("resize", handleResize);
       
         // Cleaning the event listener
         return () => {
-          window.removeEventListener("resize", handleResize);
-        };
+          window.removeEventListener("resize", handleResize)
+        }
       }, [])
 
 
+    // useEffect(() => {
+    //     if(isAuthentificated) {
+    //         setFirstName(registredFirstName)
+    //     }
+    // }, [registredFirstName])
+
     useEffect(() => {
         if(isAuthentificated) {
-            setFirstName(registredFirstName)
+            const fetchProfileData = async () => {
+                  
+              try {
+                const data = await fetchUserProfile(token)
+                console.log(data);
+                
+                setFirstName(data.body.firstName)        
+                dispatch(setUser({
+                    firstname: data.body.firstName,
+                    lastname: data.body.lastName,
+                    email: data.body.email,
+                }))
+              
+              } catch (err) {
+                setError('Network error.')
+                console.error(err)
+              }
+            }
+        
+            fetchProfileData()
         }
-    }, [registredFirstName])
+    }, [])
+
 
     return (
         <>

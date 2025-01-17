@@ -6,6 +6,9 @@ import FeatureItem from "../../components/featureItem/FeatureItem"
 import chatIcon from "../../assets/icon-chat.svg"
 import moneyIcon from "../../assets/icon-money.svg"
 import securityIcon from "../../assets/icon-security.svg"
+import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { logout } from '../../features/auth/authSlice'
 
 const featuresItemContent = [
     {
@@ -25,7 +28,23 @@ const featuresItemContent = [
     },
 ]
 
+
 const Home = () => {
+
+    // TEST
+    // const dispatch = useDispatch()
+
+    // useEffect(() => {
+    //     console.log("pouet home");
+        
+    //     const localToken = localStorage.getItem("token")
+
+    //     // Si le token n'est pas en local, on effectue une déconnexion
+    //     if (!localToken) {
+    //     dispatch(logout())
+    //     }
+    // }, [])
+    // FIN TEST
     
     return (
         <>
