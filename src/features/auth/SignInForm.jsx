@@ -21,7 +21,12 @@ const SignInForm = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [checked, setChecked] = useState(false)
-  const [error, setError] = useState(null) 
+  const [error, setError] = useState(null)
+
+  // const monStorage = localStorage
+  // console.log(checked);
+  // console.log(monStorage);
+  // console.log(localStorage.getItem('token'));
   
 
   /**

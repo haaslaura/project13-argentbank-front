@@ -27,20 +27,22 @@ const Header = () => {
     const registredFirstName = useSelector((state) => state.user.firstname)
 
     const [firstName, setFirstName] = useState(null)
-    const [isMobile, setIsMobile] = useState(false)
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
     
-    const handleResize = () => {
-        if (window.innerWidth < 720) {
-            setIsMobile(true)
-        } else {
-            setIsMobile(false)
-        }
-    }
-
-    // create an event listener
+    
     useEffect(() => {
-        window.addEventListener("resize", handleResize)
-    }, [])
+        const handleResize = () => {
+          setIsMobile(window.innerWidth <= 768);
+        }
+      
+        window.addEventListener("resize", handleResize);
+      
+        // Cleaning the event listener
+        return () => {
+          window.removeEventListener("resize", handleResize);
+        };
+      }, [])
+
 
     useEffect(() => {
         if(isAuthentificated) {

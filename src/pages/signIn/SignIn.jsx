@@ -18,13 +18,13 @@ const SignIn = () => {
     }, [])
 
     // If the user is already logged in, the Sign in button takes them to the profile page
-    const isAuthentificated = useSelector((state) => state.auth.isAuthentificated)  
-    const persist = useSelector((state) => state.auth.persist)
-    const token = localStorage.getItem('token')
+    // const isAuthentificated = useSelector((state) => state.auth.isAuthentificated)  
+    // const persist = useSelector((state) => state.auth.persist)
+    // const token = localStorage.getItem('token')
     
-    if (isAuthentificated && (persist || token)) {
-        return <Navigate to="/profile" replace />
-    }
+    // if (isAuthentificated && (persist || token)) {
+    //     return <Navigate to="/profile" replace />
+    // }
 
     return (
         <section className="sign-in-content">
