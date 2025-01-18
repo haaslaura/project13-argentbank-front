@@ -46,6 +46,7 @@ export async function fetchUserProfile(token) {
             Authorization: `Bearer ${token}`,
         },
     })
+    
     if (!response.ok) throw new Error('Invalid or expired token')
         return response.json()
 }

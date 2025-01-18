@@ -21,11 +21,12 @@ const EditProfile = ({firstName, lastName}) => {
     const navigate = useNavigate()   
 
     const token = useSelector((state) => state.auth.token)
-
+    
     const [actualLastName, setLastName] = useState(lastName)
     const [actualFirstName, setFirstName] = useState(firstName)
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [error, setError] = useState(null)
+    
     
     /**
      * Closes the profile editing mode.
@@ -33,6 +34,7 @@ const EditProfile = ({firstName, lastName}) => {
     const closeProfileEdit = ()  => {
         dispatch(disableEditingMode())
     }
+
 
     /**
      * Validates and sanitizes user input to prevent empty fields, excessive length, 
@@ -53,6 +55,7 @@ const EditProfile = ({firstName, lastName}) => {
         }
         return sanitizedInput
   }
+
 
     /**
      * Handles the submission of the profile form to update the user's information.
@@ -86,19 +89,19 @@ const EditProfile = ({firstName, lastName}) => {
             // Update Redux store with the new user details
             dispatch(
                 setUser({
-                    firstname: sanitizedFirstName,
-                    lastname: sanitizedLastName,
+                    firstName: sanitizedFirstName,
+                    lastName: sanitizedLastName,
                 })
             )
             closeProfileEdit()
-
         } catch (err) {
             setError(err.message)
         } finally {
             setIsSubmitting(false)
         }
     }
-            
+
+    
     return (
         <>
             {error && <p className="error-message">{error}</p>}

@@ -7,7 +7,7 @@ import { enableEditingMode } from './editingSlice'
 const Profile = ({firstName, lastName}) => {
     
     const dispatch = useDispatch()
-    const editing = useSelector((state) => state.edit.editingMode) 
+    const editing = useSelector((state) => state.edit.editingMode)
 
     const openProfileEdit = () => {
         dispatch(enableEditingMode())

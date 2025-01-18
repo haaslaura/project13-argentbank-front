@@ -1,36 +1,27 @@
 import './account.css'
 
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 import bankTransactions from '../../mockdata/bankTransactions.json'
-import { fetchUserProfile } from '../../services/userService'
 
 import Profile from '../../features/editProfile/Profile'
-import { setUser } from '../../features/user/userSlice'
+import { fetchUserData } from '../../features/user/userSlice'
 
 import { disableDarkMode, enableDarkMode } from '../../layouts/main/themeSlice'
 import TransactionWrapper from '../../components/transactionWrapper/TransactionWrapper'
+import { useLogout } from '../../hooks/useLogout'
 
 
 const Account = () => {
     
     const dispatch = useDispatch()
-    const navigate = useNavigate()
+    const handleLogout = useLogout()
 
     const token = useSelector((state) => state.auth.token)
-    const { firstname, lastname } = useSelector((state) => state.user)
-    
-    const [profileData, setProfileData] = useState(null)
+    const { firstName, lastName, status } = useSelector((state) => state.user)
     const [error, setError] = useState(null)
-    
-    
-    // Checks immediately for missing token
-    if (!token) {
-      navigate('/login')
-      return null
-    }
+
 
     // activates bg-dark on assembly, deactivates bg-dark on disassembly
     useEffect(() => {
@@ -38,39 +29,36 @@ const Account = () => {
         return () => {
             dispatch(disableDarkMode())
           }
-    }, []) 
+    }, [dispatch]) 
     
+
     useEffect(() => {
-        const fetchProfileData = async () => {
-              
-          try {
-            const data = await fetchUserProfile(token)
-            setProfileData(data.body)            
-            dispatch(setUser({
-                firstname: data.body.firstName,
-                lastname: data.body.lastName,
-                email: data.body.email,
-            }))
-          
-          } catch (err) {
-            setError('Network error.')
-            console.error(err)
-            navigate('/login')
-          }
-        }
+      
+      if (!token) {
+        handleLogout('/login')
+      } 
+
+      dispatch(fetchUserData(token))
+        .unwrap()
+        .catch((err) => {
+          console.error(err)
+          setError("Network error or authentication problem.")
+          handleLogout('/login')
+        })       
+      
+    }, [dispatch, handleLogout])
     
-      fetchProfileData()
-    }, [token])
-    
+
     if (error) return <p>{error}</p>
-    if (!profileData) return <p>Loading...</p>
+    if (status === "loading") return <p>Loading...</p>
     
+
     return (
         <>
             <div className="header">
                 <Profile
-                  firstName={firstname}
-                  lastName={lastname}
+                  firstName={firstName}
+                  lastName={lastName}
                 />
             </div>
             

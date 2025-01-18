@@ -17,7 +17,6 @@ const SignInForm = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   
-  // State management for form inputs and authentication status
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [checked, setChecked] = useState(false)
@@ -31,6 +30,7 @@ const SignInForm = () => {
     setChecked(!checked)
   }
 
+
   /**
    * Sanitizes input to remove potentially malicious HTML characters
    * @param {string} input - The user input to sanitize
@@ -40,6 +40,7 @@ const SignInForm = () => {
     const sanitizedInput = input.replace(/[<>]/g, "")
     return sanitizedInput
   }
+  
   
   /**
    * Handles the login process, including sanitizing input, sending the login request, 

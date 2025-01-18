@@ -1,9 +1,11 @@
+import './app.css'
+
 import { BrowserRouter, Route, Routes } from "react-router"
 import { useDispatch } from "react-redux"
 import { useEffect } from "react"
-import { login, logout } from "../features/auth/authSlice"
 
-import './app.css'
+import { clearUser, fetchUserData } from "../features/user/userSlice"
+import { login, logout } from "../features/auth/authSlice"
 
 import Header from '../layouts/header/Header'
 import Footer from '../layouts/footer/Footer'
@@ -18,29 +20,30 @@ import ProtectedRoute from "../components/protectedRoute/ProtectedRoute"
 
 
 function App() {
-
-  // TEST
   const dispatch = useDispatch()
 
   useEffect(() => {
-    console.log("lancement de App");
     
     const localToken = localStorage.getItem("token")
-    console.log("localToken: " + localToken);
     
-    // Si le token n'est pas en local, on effectue une déconnexion propre
+    // If the token does not exist in the localStorage, a disconnection is performed
     if (!localToken) {
       dispatch(logout())
-    
-      // Si le token est présent en local, on remet le store à jour
-    } else {
-      dispatch(login({ localToken, isAuthentificated: true, persist: true }))
-      // comment on réinjecte le user donc ?
-      
-    }
+      dispatch(clearUser())
 
-  }, [])
-  // FIN TEST
+    } else {
+      // Otherwise, we'll update the store
+      dispatch(login({ localToken, isAuthentificated: true, persist: true }))
+      dispatch(fetchUserData(localToken)).then((action) => {
+        if (action.meta.requestStatus === "fulfilled") {
+          console.log("User data loaded:", action.payload)
+        } else {
+          console.error("Failed to fetch user data:", action.error.message)
+        }
+      })
+    }
+  }, [dispatch])
+
   
   return (
     <>

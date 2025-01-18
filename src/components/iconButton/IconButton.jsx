@@ -1,8 +1,6 @@
+import { useLogout } from '../../hooks/useLogout'
 import './iconButton.css'
 import { Link } from "react-router-dom"
-import { useDispatch } from "react-redux"
-import { logout } from "../../features/auth/authSlice"
-import { clearUser } from '../../features/user/userSlice'
 
 
 /**
@@ -19,14 +17,12 @@ import { clearUser } from '../../features/user/userSlice'
  * @returns {JSX.Element} The IconButton component
  */
 const IconButton = ({link, icon, buttonText}) => {
-    const dispatch = useDispatch()
+    const handleLogout = useLogout()
 
-    const handleLogout = () => {
+    const checkButton = () => {
         if (buttonText === "Sign Out") {                   
-            localStorage.removeItem('token')
-            dispatch(clearUser())
-            dispatch(logout())
-        }
+            handleLogout('/login')
+        } 
     }
 
     return (
@@ -34,7 +30,7 @@ const IconButton = ({link, icon, buttonText}) => {
             <Link
                 className="main-nav-item"
                 to={link}
-                onClick={handleLogout}
+                onClick={checkButton}
             >
                 <i className={icon}></i> {buttonText}
             </Link>
