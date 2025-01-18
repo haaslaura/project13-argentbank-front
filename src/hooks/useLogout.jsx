@@ -4,7 +4,10 @@ import { useNavigate } from "react-router-dom"
 import { clearUser } from "../features/user/userSlice"
 import { logout } from "../features/auth/authSlice"
 
-
+/**
+ * 
+ * @returns 
+ */
 export const useLogout = () => {
 
     const disptach = useDispatch()
