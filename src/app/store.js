@@ -14,5 +14,13 @@ export const store = configureStore({
     user: useReducer,
     // The slice to manage the opening of the profile editor:
     edit: editingSlice,
-  }
+  },
+  // Middleware Test
+  // middleware: (getDefaultMiddleware) =>
+  //   getDefaultMiddleware().prepend([
+  //     (store) => (next) => (action) => {
+  //       console.log('Action', action);
+  //       next(action);
+  //     }
+  //   ])
 })
