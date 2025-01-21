@@ -22,6 +22,10 @@ const Account = () => {
     const { firstName, lastName, status } = useSelector((state) => state.user)
     const [error, setError] = useState(null)
 
+    console.log("Account received token: " + token);
+    console.log(firstName);
+    console.log(status);
+    
 
     // activates bg-dark on assembly, deactivates bg-dark on disassembly
     useEffect(() => {
@@ -36,15 +40,17 @@ const Account = () => {
       
       if (!token) {
         handleLogout('/login')
-      } 
+      }
 
-      dispatch(fetchUserData(token))
-        .unwrap()
-        .catch((err) => {
-          console.error(err)
-          setError("Network error or authentication problem.")
-          handleLogout('/login')
-        })       
+      if (status !== "succeeded") {
+        dispatch(fetchUserData(token))
+          .unwrap()
+          .catch((err) => {
+            console.error(err)
+            setError("Network error or authentication problem.")
+            handleLogout('/login')
+          })
+      }    
       
     }, [dispatch, handleLogout])
     

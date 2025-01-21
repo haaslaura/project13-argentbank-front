@@ -47,6 +47,8 @@ export async function fetchUserProfile(token) {
         },
     })
     
+    console.log(response)
+    
     if (!response.ok) throw new Error('Invalid or expired token')
         return response.json()
 }

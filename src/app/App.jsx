@@ -33,7 +33,7 @@ function App() {
 
     } else {
       // Otherwise, we'll update the store
-      dispatch(login({ localToken, isAuthentificated: true, persist: true }))
+      dispatch(login({ token: localToken, isAuthentificated: true, persist: true }))
       dispatch(fetchUserData(localToken)).then((action) => {
         if (action.meta.requestStatus === "fulfilled") {
           console.log("User data loaded:", action.payload)
