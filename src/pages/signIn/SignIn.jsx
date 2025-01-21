@@ -1,12 +1,17 @@
 import './signin.css'
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { disableDarkMode, enableDarkMode } from '../../layouts/main/themeSlice'
 import SignInForm from '../../features/auth/SignInForm'
+import { Navigate } from 'react-router-dom'
 
 
 const SignIn = () => {
     const dispatch = useDispatch()
+    // const navigate = useNavigate()
+
+    const token = useSelector((state) => state.auth.token)
+    console.log(token)    
 
     // activates bg-dark on assembly, deactivates bg-dark on disassembly
     useEffect(() => {
@@ -14,8 +19,10 @@ const SignIn = () => {
         return () => {
             dispatch(disableDarkMode())
           }
-    }, [])
+    }, [dispatch])
 
+
+    if (token) return <Navigate to="/profile" replace />
 
     return (
         <section className="sign-in-content">
