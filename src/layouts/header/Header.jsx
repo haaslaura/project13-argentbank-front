@@ -24,8 +24,7 @@ import IconButton from '../../components/iconButton/IconButton'
 const Header = () => {
 
     const isAuthentificated = useSelector((state) => state.auth.isAuthentificated)
-    console.log("isAuthentificated: " + isAuthentificated) // To be deleted after the demonstration
-    const { firstName, status } = useSelector((state) => state.user)   
+    const { firstName } = useSelector((state) => state.user)   
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
     
     // logo depending on screen size :

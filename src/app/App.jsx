@@ -35,7 +35,7 @@ function App() {
       dispatch(login({ token: localToken, isAuthentificated: true, persist: true }))
       dispatch(fetchUserData(localToken)).then((action) => {
         if (action.meta.requestStatus === "fulfilled") {
-          console.log("User data loaded:", action.payload)
+          console.log("User data loaded:", action.payload) // Line to be commented on after the demonstration
         } else {
           console.error("Failed to fetch user data:", action.error.message)
         }

@@ -80,6 +80,7 @@ export async function updateUserProfile(token, newFirstName, newLastName) {
         }
 
         const data = await response.json()
+        console.log("Data sent to the database: ");
         console.log(data.body) // Line to be commented on after the demonstration
         return data
 

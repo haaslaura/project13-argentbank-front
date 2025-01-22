@@ -15,12 +15,4 @@ export const store = configureStore({
     // The slice to manage the opening of the profile editor:
     edit: editingSlice,
   },
-  // Middleware Test
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware().prepend([
-  //     (store) => (next) => (action) => {
-  //       console.log('Action', action);
-  //       next(action);
-  //     }
-  //   ])
 })
