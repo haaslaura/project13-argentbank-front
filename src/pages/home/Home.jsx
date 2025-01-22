@@ -27,9 +27,16 @@ const featuresItemContent = [
 ]
 
 
+/**
+ * Home page component.
+ * 
+ * Displays the main landing page with a hero banner and a list of features. 
+ * 
+ * @component
+ * @returns {JSX.Element} The Home page.
+ */
 const Home = () => {
 
-    
     return (
         <>
             <Hero />

@@ -1,11 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 
+/**
+ * Slice for managing authentication state
+ */
 let initialState = {
-    token: null,
-    isAuthentificated: false,
-    persist: false
-  }
+  token: null,
+  isAuthentificated: false,
+  persist: false
+}
 
 const authSlice = createSlice({
   name: 'auth',

@@ -23,7 +23,6 @@ function App() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    
     const localToken = localStorage.getItem("token")
     
     // If the token does not exist in the localStorage, a disconnection is performed

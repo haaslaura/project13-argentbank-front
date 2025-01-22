@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+
+/**
+ * Slice of profile editing mode status
+ */
 let initialState = {
   editingMode: false, // By default, the profile editor is closed
 }

@@ -13,6 +13,16 @@ import TransactionWrapper from '../../components/transactionWrapper/TransactionW
 import { useLogout } from '../../hooks/useLogout'
 
 
+/**
+ * Account page component.
+ * 
+ * Displays user account details and a list of bank transactions. 
+ * Handles user authentication, fetches user data, and manages dark mode styling.
+ * Redirects to the login page if authentication fails.
+ * 
+ * @component
+ * @returns {JSX.Element} The Account page.
+ */
 const Account = () => {
     
     const dispatch = useDispatch()
@@ -21,11 +31,7 @@ const Account = () => {
     const token = useSelector((state) => state.auth.token)
     const { firstName, lastName, status } = useSelector((state) => state.user)
     const [error, setError] = useState(null)
-
-    console.log("Account received token: " + token);
-    console.log(firstName);
-    console.log(status);
-    
+        
 
     // activates bg-dark on assembly, deactivates bg-dark on disassembly
     useEffect(() => {

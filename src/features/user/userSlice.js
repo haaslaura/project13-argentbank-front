@@ -2,6 +2,10 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { fetchUserProfile } from '../../services/userService'
 
 
+/**
+ * Slice for managing user state
+ */
+
 // Asynchronous action to retrieve user data
 export const fetchUserData = createAsyncThunk(
   "user/fetchUserData",

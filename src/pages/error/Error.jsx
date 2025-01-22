@@ -6,6 +6,14 @@ import { disableDarkMode, enableDarkMode } from '../../layouts/main/themeSlice'
 import { useEffect } from 'react'
 
 
+/**
+ * Error 404 page component.
+ * 
+ * Displays an error message and invites user to return to the home page with a link button. 
+ * 
+ * @component
+ * @returns {JSX.Element} The Error page.
+ */
 const Error = () => {
     const dispatch = useDispatch()
 

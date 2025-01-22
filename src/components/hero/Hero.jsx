@@ -1,5 +1,11 @@
 import './hero.css'
 
+
+/**
+ * Displays an hero section with an image (in CSS) and some text
+ * 
+ * @returns {JSX.Element} An hero component
+ */
 const Hero = () => {
     return (
         <div className="hero">

@@ -1,6 +1,7 @@
-import { Outlet } from 'react-router'
 import './main.css'
+import { Outlet } from 'react-router'
 import { useSelector } from 'react-redux'
+
 
 const Main = () => {
 

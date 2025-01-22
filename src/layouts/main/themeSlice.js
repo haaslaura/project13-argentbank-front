@@ -1,7 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+
+/**
+ * Slice to manage dark mode status
+ */
 let initialState = {
-  isDark: false, // By default, bg-dark is not applied to <main>
+  isDark: false, // By default, bg-dark is not applied
 }
 
 const themeSlice = createSlice({

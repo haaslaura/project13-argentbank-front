@@ -4,9 +4,18 @@ import { useNavigate } from "react-router-dom"
 import { clearUser } from "../features/user/userSlice"
 import { logout } from "../features/auth/authSlice"
 
+
 /**
+ * A custom React hook to handle user logout functionality.
  * 
- * @returns 
+ * @returns {Function} A memoized function `handleLogout` that accepts a path and performs the logout logic.
+ * 
+ * @example
+ * // Usage in a React component
+ * const handleLogout = useLogout();
+ * 
+ * // Trigger logout and redirect to the login page
+ * handleLogout('/login');
  */
 export const useLogout = () => {
 
@@ -15,10 +24,10 @@ export const useLogout = () => {
 
     const handleLogout = useCallback(
         (path) => {
-            localStorage.removeItem('token')
-            disptach(clearUser())
-            disptach(logout())
-            navigate(path)
+            localStorage.removeItem('token') // Removes the authentication token from localStorage
+            disptach(clearUser()) // Clears user data from the Redux store
+            disptach(logout()) // Dispatches a logout action to update the authentication state in Redux
+            navigate(path) // Redirects the user to a specified path
         },
         [disptach, navigate]
     )
