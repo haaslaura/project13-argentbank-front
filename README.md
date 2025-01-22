@@ -24,11 +24,10 @@ git clone [https://github.com/OpenClassrooms-Student-Center/Project-10-Bank-API.
 Les instructions sont présentent dans le Readme du projet.
 
 ## Scénario
-à venir
-
-## Objectifs du projet
-à venir
-
+Vous venez de commencer à travailler chez Remede Agency, une agence spécialisée dans le développement d'applications web. Après quelques jours dans l'entreprise, vous êtes mis à contribution sur l'application d'Argent Bank, un contrat en deux parties qui se décompose en plusieurs phases :
+- Phase 1 : Authentification des utilisateurs - Création d'une application web permettant aux clients de se connecter et de gérer leurs comptes et leur profil.
+- Phase 2 : Transactions - Il s’agirait de spécifier les endpoints d’API nécessaires pour une éventuelle deuxième mission une fois que nous aurons terminé la première.
+ 
 ## Objectifs Pédagogiques
 - S'authentifier à une API
 - Implémenter un gestionnaire d'état dans une application React
@@ -36,7 +35,8 @@ Les instructions sont présentent dans le Readme du projet.
 - Modéliser une API
 
 ## 🛠 Outils
-- React
+- React et React Router
 - Vite
-- React Router
 - Redux Toolkit et Redux
+- MongoDB Atlas et MongoDB Compass
+- Swagger
