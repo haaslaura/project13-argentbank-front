@@ -1,6 +1,6 @@
 import { useLogout } from '../../hooks/useLogout'
 import './iconButton.css'
-import { Link } from "react-router-dom"
+import { Link, replace } from "react-router-dom"
 
 
 /**
@@ -21,7 +21,7 @@ const IconButton = ({link, icon, buttonText}) => {
 
     const checkButton = () => {
         if (buttonText === "Sign Out") {                   
-            handleLogout('/login')
+            handleLogout('/', { replace: true })
         } 
     }
 

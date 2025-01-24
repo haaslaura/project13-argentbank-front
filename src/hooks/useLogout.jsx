@@ -23,11 +23,11 @@ export const useLogout = () => {
     const navigate = useNavigate()
 
     const handleLogout = useCallback(
-        (path) => {
+        (path, options = {}) => {
             localStorage.removeItem('token') // Removes the authentication token from localStorage
             disptach(clearUser()) // Clears user data from the Redux store
             disptach(logout()) // Dispatches a logout action to update the authentication state in Redux
-            navigate(path) // Redirects the user to a specified path
+            navigate(path, options) // Redirects the user to a specified path
         },
         [disptach, navigate]
     )
