@@ -9,15 +9,20 @@ basePath: /api/v1
 schemes:
   - http
 paths:
-  /user/transactions:
+  /user/{userId}/transactions:
     get:
       security:
         - Bearer: []
       tags:
         - Transactions
-      summary: Retrieve transactions for the current month
+      summary: Retrieve transactions for the current month of a specific user
       description: Retrieve all transactions for the current month, grouped by account
       parameters:
+        - in: path
+          name: userId
+          description: ID of the user whose transactions are to be retrieved
+          required: true
+          type: string
         - in: header
           name: Authorization
           description: Bearer JWT token
@@ -48,7 +53,7 @@ paths:
           description: Invalid Fields or missing token
         '500':
           description: Internal Server Error
-  /user/transactions/{transactionId}:
+  /user/{userID}/transactions/{transactionId}:
     get:
       security:
         - Bearer: []
@@ -57,9 +62,9 @@ paths:
       summary: Transaction details
       description: This endpoint is used to retrieve the details of a specific transaction
       parameters:
-        - in: header
-          name: Authorization
-          description: Bearer JWT token
+        - in: path
+          name: userId
+          description: ID of the user whose transactions are to be retrieved
           required: true
           type: string
         - in: path
@@ -67,6 +72,11 @@ paths:
           description: ID of the transaction to retrieve
           type: string
           required: true
+        - in: header
+          name: Authorization
+          description: Bearer JWT token
+          required: true
+          type: string
       produces:
         - application/json
       responses:
@@ -82,6 +92,8 @@ paths:
               notes: "Paid in full"
         '400':
           description: Invalid Fields or missing token
+        '403':
+          description: Forbidden. User not authorized to access this transaction
         '500':
           description: Internal Server Error
     put:
@@ -89,9 +101,19 @@ paths:
         - Bearer: []
       tags:
         - Transactions
-      summary: Transaction details
+      summary: Update transaction details
       description: API for updating certain details of the transaction
       parameters:
+        - in: path
+          name: userId
+          description: ID of the user whose transaction is being updated
+          required: true
+          type: string
+        - in: path
+          name: transactionId
+          required: true
+          description: ID of the transaction to update
+          type: string
         - in: header
           name: Authorization
           description: Bearer JWT token
@@ -103,16 +125,11 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/TransactionDetails'
-        - in: path
-          name: transactionId
-          required: true
-          description: ID of the transaction to update
-          type: string
       produces:
         - application/json
       responses:
         '200':
-          description: The transaction was successfully modified.
+          description: The transaction was successfully updated
           schema:
             $ref: '#/definitions/TransactionDetails'
           examples:
@@ -123,6 +140,8 @@ paths:
               notes: "Updated notes"
         '400':
           description: Invalid Fields
+        '403':
+          description: Forbidden. User not authorized to update this transaction.
         '500':
           description: Internal Server Error
 securityDefinitions:
